@@ -1,4 +1,4 @@
-import { Listen } from './interface/Listen'
+import { Listen } from '../interface/Listen'
 import { ListenBase } from './ListenBase'
 
 /**
