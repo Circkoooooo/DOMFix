@@ -6,7 +6,7 @@ onMounted(() => {
 	listen.listenNodeMove("ele-left", "right")
 })
 
-const remove = (id: string) => {
+const move = (id: string) => {
 	const left = document.getElementById(id)
 	const rightContainer = document.getElementById("right")
 	const leftContainer = document.getElementById("left")
@@ -21,7 +21,7 @@ const remove = (id: string) => {
 <template>
 	<div class="playground">
 		<div class="menus">
-			<button @click="remove('ele-left')">移动元素</button>
+			<button @click="move('ele-left')">移动元素</button>
 		</div>
 		<div class="container">
 			<div id="left"
