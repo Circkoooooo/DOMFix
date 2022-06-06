@@ -1,27 +1,42 @@
-type currentChange = {
-	addList: Node[]
-	removeList: Node[]
+type MoveCurrentChange = {
+	addList: Set<Node>
 }
-export class Listen {
-	private currentChange: currentChange
+type OldElementStatus = {
+	left: number
+	top: number
+	height: number
+	width: number
+}
 
+export class Listen {
+	private currentChange: MoveCurrentChange
+	private oldElementStatus: OldElementStatus
+	private oldElement: HTMLElement
 	constructor() {
 		this.currentChange = {
-			addList: [] as Node[],
-			removeList: [] as Node[],
+			addList: new Set(),
 		}
+		this.oldElementStatus = {} as OldElementStatus
+		this.oldElement = {} as HTMLElement
 	}
+
 	//为Node创建Node变化的监听
-	public listenNodeMove = (oldElementId: string, targetId: string) => {
-		const oldNode = document.getElementById(oldElementId)
+	public listenNodeMove = async (oldElementId: string, targetId: string) => {
+		//获取旧的属性
+		const oldElement = document.getElementById(oldElementId)
 		const targetContainer = document.getElementById(targetId)
+		if (!oldElement || !targetContainer) return
+		//保存元素旧状态的属性
+		this.oldElement = oldElement
+		this.copyNodeStatus(oldElement)
+
 		const observerOptions = {
 			childList: true,
 			attributes: true,
 		}
-		if (!oldNode || !targetContainer) return
 
-		this.observer.observe(oldNode, observerOptions)
+		// 创建监听
+		this.observer.observe(oldElement, observerOptions)
 		this.observer.observe(targetContainer, observerOptions)
 	}
 
@@ -34,16 +49,20 @@ export class Listen {
 							 mutation.removedNodes */
 					if (mutation.addedNodes.length !== 0) {
 						mutation.addedNodes.forEach(item => {
-							this.currentChange.addList.push(item)
+							this.currentChange.addList.add(item)
 						})
 					}
-					if (mutation.removedNodes.length !== 0) {
-						mutation.removedNodes.forEach(item => {
-							this.currentChange.addList.push(item)
-						})
-					}
-					console.log(this.currentChange)
 			}
 		})
+		console.log('pre', this.oldElementStatus)
+		this.copyNodeStatus(this.oldElement)
+		console.log('after', this.oldElementStatus)
 	})
+
+	private copyNodeStatus(element: HTMLElement) {
+		this.oldElementStatus.height = element.offsetHeight
+		this.oldElementStatus.width = element.offsetWidth
+		this.oldElementStatus.left = element.offsetLeft
+		this.oldElementStatus.top = element.offsetTop
+	}
 }
