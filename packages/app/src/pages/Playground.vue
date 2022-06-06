@@ -1,17 +1,32 @@
 <script setup lang="ts">
+import { Listen } from '@/composables';
+import { onMounted } from 'vue';
+onMounted(() => {
+	const listen = new Listen()
+	listen.listenNodeMove("ele-left", "right")
+})
+
+const remove = (id: string) => {
+	const left = document.getElementById(id)
+	const rightContainer = document.getElementById("right")
+	if (!left || !rightContainer) return
+	rightContainer.appendChild(left)
+}
 </script>
 <template>
 	<div class="playground">
 		<div class="menus">
-			<button>移除左边</button>
-			<button>移除左边</button>
+			<button @click="remove('ele-left')">移除左边</button>
+			<button @click="remove('right')">移除左边</button>
 		</div>
 		<div class="container">
-			<div class="box left">
-				<div class="ele"></div>
+			<div id="left"
+					class="box">
+				<div id="ele-left"
+						class="ele"></div>
 			</div>
-			<div class="box right">
-				<div class="ele"></div>
+			<div id="right"
+					class="box">
 			</div>
 		</div>
 	</div>
