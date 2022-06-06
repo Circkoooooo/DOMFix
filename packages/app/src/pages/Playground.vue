@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { Listen } from '@/composables';
+import { ListenMove } from '@/composables/implement/ListenMove';
 import { onMounted } from 'vue';
 onMounted(() => {
-	const listen = new Listen()
-	listen.listenNodeMove("ele-left", "right")
+	const listenMove = new ListenMove()
+	listenMove.listenNodeMove("ele-left", "right")
 })
 
 const move = (id: string) => {
