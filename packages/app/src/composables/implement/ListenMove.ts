@@ -2,7 +2,7 @@ import { Listen } from '../interface/Listen'
 import { ListenBase } from './ListenBase'
 
 /**
- * 用于检测node节点移除到显示，更换状态的类。
+ * 用于记录node节点从移除到显示的状态变换。
  */
 export class ListenMove extends ListenBase implements Listen {
 	constructor() {
