@@ -26,4 +26,19 @@ export class ListenMove extends ListenBase implements Listen {
 		this.observer.observe(oldElement, observerOptions)
 		this.observer.observe(targetContainer, observerOptions)
 	}
+	doMove(oldElementId: string, targetContainerId: string) {
+		const oldElement = document.getElementById(oldElementId)
+		const targetContainer = document.getElementById(targetContainerId)
+		if (oldElement === undefined || oldElement === null) {
+			throw new ReferenceError(
+				'can not find a element which id is ' + oldElementId
+			)
+		}
+		if (targetContainer === undefined || targetContainer === null) {
+			throw new ReferenceError(
+				'can not find a element which id is ' + targetContainerId
+			)
+		}
+		targetContainer.appendChild(oldElement)
+	}
 }

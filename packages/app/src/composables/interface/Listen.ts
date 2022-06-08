@@ -8,4 +8,5 @@ export interface Listen {
 	initObserver(): MutationObserver
 	copyNodeStatus(element: HTMLElement): void
 	listenNodeMove?(oldElementId: string, targetId: string): void
+	doMove?(oldElementId: string, targetContainerId: string): void
 }
